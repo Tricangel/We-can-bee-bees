@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "package": "bee.bees.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "EntityMixin",
+    "EntityTypeMixin",
+    "ExampleMixin",
+    "ItemsMixin",
+    "LivingEntityMixin",
+    "PlayerMixin",
+    "ServerPlayerGameModeMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+	}
+}
