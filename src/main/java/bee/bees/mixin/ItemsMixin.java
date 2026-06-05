@@ -1,11 +1,14 @@
 package bee.bees.mixin;
 
+import bee.bees.Bees;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.Consumables;
 import net.minecraft.world.level.block.Block;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,15 +20,22 @@ public abstract class ItemsMixin {
 
 
 
-    @ModifyVariable(method = "reg/world/item/Item;", at = @At(value = "HEAD"), argsOnly = true)
-    private static Item.Properties init(Item.Properties value, ResourceKey<Item> key) {
-        if (value.itemId().)
+    @ModifyVariable(method = "registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;", at = @At(value = "HEAD"), argsOnly = true)
+    private static Item.Properties init(Item.Properties value, String name) {
+        if (name.contains("cooked")) return value.food(new FoodProperties(0, 0, false));
+    return value;
     }
 
 
     @ModifyVariable(method = "registerBlock(Lnet/minecraft/world/level/block/Block;Ljava/util/function/BiFunction;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;", at = @At(value = "HEAD"), argsOnly = true)
     private static Item.Properties wawa(Item.Properties value, Block block) {
-            if (block.getName().toString().contains("flower")) return value.food(Foods.APPLE);
+        String name = block.getDescriptionId();
+        name = name.replace("block.minecraft.", "");
+        if (Bees.COMMON_FLOWERS.contains(name)) return value.food(Foods.RABBIT);
+        if (Bees.UNCOMMON_FLOWERS.contains(name)) return value.food(Foods.APPLE);
+        if (Bees.RARE_FLOWERS.contains(name)) return value.food(Foods.COOKED_COD);
+        if (Bees.BIOME_FLOWERS.contains(name)) return value.food(Foods.BEETROOT_SOUP);
+        if (Bees.TALL_FLOWERS.contains(name)) return value.food(Foods.COOKED_CHICKEN);
         return value;
     }
 

@@ -20,6 +20,9 @@
 		],
 		"fabric-datagen": [
 			"bee.bees.BeesDataGenerator"
+		],
+		"client": [
+			"bee.bees.BeesClient"
 		]
 	},
 	"mixins": [
