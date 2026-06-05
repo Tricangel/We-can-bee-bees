@@ -1,15 +1,15 @@
 package bee.bees.mixin;
 
+import bee.bees.Bees;
+import bee.bees.client.BeeChestplateModel;
+import bee.bees.client.BeeHelmetModel;
 import bee.bees.client.PlayerBeeModel;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.Model;
-import net.minecraft.client.model.animal.bee.AdultBeeModel;
-import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.state.AvatarRenderState;
 import net.minecraft.client.renderer.entity.state.BeeRenderState;
@@ -17,10 +17,12 @@ import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
-import net.minecraft.world.entity.Entity;
 import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -35,7 +37,7 @@ import java.util.List;
 import static net.minecraft.client.renderer.entity.LivingEntityRenderer.getOverlayCoords;
 
 @Mixin(LivingEntityRenderer.class)
-public abstract class ExampleMixin {
+public abstract class LivingEntityRendererMixin {
 
 
 	@Shadow
@@ -63,7 +65,11 @@ public abstract class ExampleMixin {
 	@Final
 	protected List<RenderLayer<EntityRenderState, EntityModel<EntityRenderState>>> layers;
 	@Unique
-	private Model playerBeeModel;
+	private PlayerBeeModel playerBeeModel;
+
+	@Unique BeeHelmetModel helmetModel;
+	@Unique BeeChestplateModel chestplateModel;
+
 
 
 
@@ -96,13 +102,33 @@ public abstract class ExampleMixin {
 				beeRenderState.pose = state.pose;
 
 				submitNodeCollector.submitModel(playerBeeModel, beeRenderState, poseStack, renderType, state.lightCoords, overlayCoords, tintedColor, (TextureAtlasSprite)null, state.outlineColor, (ModelFeatureRenderer.CrumblingOverlay)null);
+
+
+				poseStack.translate(0, 0.045, 0);
+
+				if (!avatarRenderState.headEquipment.isEmpty() && avatarRenderState.headEquipment.get(DataComponents.EQUIPPABLE) != null && avatarRenderState.headEquipment.get(DataComponents.EQUIPPABLE).assetId().isPresent()) {
+					Identifier textureLocation = Bees.MAP.get(avatarRenderState.headEquipment.get(DataComponents.EQUIPPABLE).assetId().get());
+					submitNodeCollector.submitModel(helmetModel, beeRenderState, poseStack, RenderTypes.armorCutoutNoCull(textureLocation), state.lightCoords, overlayCoords, tintedColor, null, state.outlineColor, null);
+
+				}
+				if (!avatarRenderState.chestEquipment.isEmpty() && avatarRenderState.chestEquipment.get(DataComponents.EQUIPPABLE) != null && avatarRenderState.chestEquipment.get(DataComponents.EQUIPPABLE).assetId().isPresent()) {
+					Identifier textureLocation = Bees.MAP.get(avatarRenderState.chestEquipment.get(DataComponents.EQUIPPABLE).assetId().get());
+					submitNodeCollector.submitModel(chestplateModel, beeRenderState, poseStack, RenderTypes.armorCutoutNoCull(textureLocation), state.lightCoords, overlayCoords, tintedColor, null, state.outlineColor, null);
+
+				}
+
+
 				if (this.shouldRenderLayers(state) && !this.layers.isEmpty()) {
-					playerBeeModel.setupAnim(beeRenderState);
+
 
 					for(RenderLayer<EntityRenderState, EntityModel<EntityRenderState>> layer : this.layers) {
-						poseStack.translate(0, 0.3, 0);
-						layer.submit(poseStack, submitNodeCollector, state.lightCoords, state, beeRenderState.yRot, beeRenderState.xRot);
+						if (!(layer instanceof HumanoidArmorLayer<?,?,?>)) {
+							poseStack.translate(0, 0.3, 0);
+							layer.submit(poseStack, submitNodeCollector, avatarRenderState.lightCoords, avatarRenderState, avatarRenderState.yRot, avatarRenderState.xRot);
+						}
 					}
+
+
 				}
 				if (state.leashStates != null) {
 					for (EntityRenderState.LeashState leashState : state.leashStates) {
@@ -120,6 +146,8 @@ public abstract class ExampleMixin {
 	@Inject(at = @At("TAIL"), method = "<init>")
 	private void init(EntityRendererProvider.Context context, EntityModel model, float shadow, CallbackInfo ci) {
 		this.playerBeeModel = new PlayerBeeModel(context.bakeLayer(PlayerBeeModel.LAYER));
+		this.helmetModel = new BeeHelmetModel(context.bakeLayer(BeeHelmetModel.HELMET_LAYER));
+		this.chestplateModel = new BeeChestplateModel(context.bakeLayer(BeeChestplateModel.CHESTPLATE_LAYER));
 	}
 
 

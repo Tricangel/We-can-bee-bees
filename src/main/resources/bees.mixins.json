@@ -5,9 +5,9 @@
   "mixins": [
     "EntityMixin",
     "EntityTypeMixin",
-    "ExampleMixin",
     "ItemsMixin",
     "LivingEntityMixin",
+    "LivingEntityRendererMixin",
     "PlayerMixin",
     "ServerPlayerGameModeMixin"
   ],
@@ -16,5 +16,9 @@
   },
   "overwrites": {
     "requireAnnotations": true
-	}
+  },
+  "client": [
+    "AvatarRendererMixin",
+    "StupidMixin"
+  ]
 }

@@ -22,7 +22,8 @@ public abstract class ItemsMixin {
 
     @ModifyVariable(method = "registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;", at = @At(value = "HEAD"), argsOnly = true)
     private static Item.Properties init(Item.Properties value, String name) {
-        if (name.contains("cooked")) return value.food(new FoodProperties(0, 0, false));
+        if (Bees.FOODS.contains(name)) return value.food(new FoodProperties(0, 0, false), Consumables.POISONOUS_POTATO);
+        if (name.equals("enchanted_golden_apple")) return value.food(Foods.POTATO, Consumables.ENCHANTED_GOLDEN_APPLE);
     return value;
     }
 
@@ -31,7 +32,7 @@ public abstract class ItemsMixin {
     private static Item.Properties wawa(Item.Properties value, Block block) {
         String name = block.getDescriptionId();
         name = name.replace("block.minecraft.", "");
-        if (Bees.COMMON_FLOWERS.contains(name)) return value.food(Foods.RABBIT);
+        if (Bees.COMMON_FLOWERS.contains(name)) return value.food(Foods.POTATO);
         if (Bees.UNCOMMON_FLOWERS.contains(name)) return value.food(Foods.APPLE);
         if (Bees.RARE_FLOWERS.contains(name)) return value.food(Foods.COOKED_COD);
         if (Bees.BIOME_FLOWERS.contains(name)) return value.food(Foods.BEETROOT_SOUP);

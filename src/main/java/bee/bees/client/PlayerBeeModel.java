@@ -19,6 +19,8 @@ import net.minecraft.world.entity.player.Player;
 public class PlayerBeeModel extends AdultBeeModel {
     public static final ModelLayerLocation LAYER = new ModelLayerLocation(Identifier.fromNamespaceAndPath(Bees.MOD_ID, "player_bee"), "main");
 
+
+
     public PlayerBeeModel(ModelPart root) {
         super(root);
     }
@@ -41,5 +43,17 @@ public class PlayerBeeModel extends AdultBeeModel {
         return LayerDefinition.create(mesh, 64, 64);
 
     }
+
+    public static LayerDefinition renderArm() {
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+
+        PartDefinition right_arm = partdefinition.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(42, 33).addBox(-3.0F, 0.0F, 0.0F, 5.0F, 15.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(-5.0F, 2.0F, 0.0F));
+
+        return LayerDefinition.create(meshdefinition, 64, 64);
+    }
+
+
+
 
 }

@@ -1,10 +1,15 @@
 package bee.bees.mixin;
 
+import net.minecraft.core.Holder;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,13 +27,16 @@ public abstract class LivingEntityMixin {
     @Shadow
     protected abstract EntityDimensions getDefaultDimensions(Pose pose);
 
+    @Shadow
+    @Final
+    private AttributeMap attributes;
+
     @Inject(method = "tick", at = @At(value = "HEAD"))
     private void init(CallbackInfo ci) {
         if ((LivingEntity) (Object) this instanceof Player player) {
-            if (player.isInWaterOrRain()) {
-                player.getAbilities().flying = false;
+            player.getAbilities().mayfly = !player.isInWaterOrRain();
+            player.fallDistance = 0;
 
-            }
 
 
 
@@ -47,6 +55,16 @@ public abstract class LivingEntityMixin {
     private void wawwa(float a, CallbackInfoReturnable<Float> cir) {
         if ((LivingEntity) (Object) this instanceof Player player) {
             cir.setReturnValue(0f);
+
+        }
+    }
+
+    @Inject(method = "onAttributeUpdated", at = @At(value = "HEAD"), cancellable = true)
+    private void wawwwawaawaa(Holder<Attribute> attribute, CallbackInfo ci) {
+        if ((LivingEntity) (Object) this instanceof Player player) {
+            if (attribute.equals(Attributes.FLYING_SPEED)) {
+                player.getAbilities().setFlyingSpeed((float) this.attributes.getValue(attribute));
+            }
 
         }
     }
