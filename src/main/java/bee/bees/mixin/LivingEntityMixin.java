@@ -1,6 +1,9 @@
 package bee.bees.mixin;
 
+import bee.bees.cca.WaterComponent;
+import bee.bees.registry.ModEntityComponents;
 import net.minecraft.core.Holder;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
@@ -16,6 +19,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.Random;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
@@ -34,8 +39,25 @@ public abstract class LivingEntityMixin {
     @Inject(method = "tick", at = @At(value = "HEAD"))
     private void init(CallbackInfo ci) {
         if ((LivingEntity) (Object) this instanceof Player player) {
-            player.getAbilities().mayfly = !player.isInWaterOrRain();
+            WaterComponent component = ModEntityComponents.WATER.get(player);
+
+            if (player.isInWaterOrRain() || component.water > 0) {
+                player.getAbilities().mayfly = false;
+                player.getAbilities().flying = false;
+            } else player.getAbilities().mayfly = true;
+
+            if (player.isInWaterOrRain()) {
+                component.water = 30;
+
+            }
             player.fallDistance = 0;
+
+            if (component.water > 0 && !player.isInWater()) {
+                for (int i = 0; i < 3 * ( component.water * .05); i++) {
+                    Random random = new Random();
+                    player.level().addParticle(ParticleTypes.RAIN, player.getX() + random.nextDouble(-0.4, 0.4), player.getEyeY(), player.getZ() + random.nextDouble(-0.4, 0.4), 0, 0, 0);
+                }
+            }
 
 
 

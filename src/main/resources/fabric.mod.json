@@ -23,6 +23,9 @@
 		],
 		"client": [
 			"bee.bees.BeesClient"
+		],
+		"cardinal-components": [
+			"bee.bees.registry.ModEntityComponents"
 		]
 	},
 	"mixins": [
@@ -33,5 +36,11 @@
 		"minecraft": "~26.1.2",
 		"java": ">=25",
 		"fabric-api": "*"
+	},
+	"custom": {
+		"cardinal-components": [
+			"bees:beehive",
+			"bees:water"
+		]
 	}
 }

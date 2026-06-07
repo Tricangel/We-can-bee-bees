@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:overworld",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "layers": []
+    }
+  }
+}

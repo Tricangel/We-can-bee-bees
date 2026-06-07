@@ -9,7 +9,8 @@
     "LivingEntityMixin",
     "LivingEntityRendererMixin",
     "PlayerMixin",
-    "ServerPlayerGameModeMixin"
+    "ServerPlayerGameModeMixin",
+    "ServerPlayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

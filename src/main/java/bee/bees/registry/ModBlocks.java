@@ -1,5 +1,6 @@
 package bee.bees.registry;
 
+import bee.bees.block.BeeHiveExitBlock;
 import bee.bees.block.PlayerBeeHiveBlock;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -19,6 +20,8 @@ import java.util.function.Function;
 public class ModBlocks {
 
     public static final Block PLAYER_BEEHIVE = register("player_beehive", PlayerBeeHiveBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.BEE_NEST), true);
+
+    public static final Block EXIT_BLOCK = register("exit_block", BeeHiveExitBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.BEDROCK), true);
 
 
     private static Block register(String name, Function<BlockBehaviour.Properties, Block> blockFactory, BlockBehaviour.Properties settings, boolean shouldRegisterItem) {

@@ -4,6 +4,7 @@ import bee.bees.client.BeeChestplateModel;
 import bee.bees.client.BeeHelmetModel;
 import bee.bees.client.PlayerBeeModel;
 import bee.bees.packet.BuildBeehiveC2S;
+import bee.bees.registry.ModBlockEntities;
 import bee.bees.registry.ModBlocks;
 import net.fabricmc.api.ModInitializer;
 
@@ -50,6 +51,7 @@ public class Bees implements ModInitializer {
 
 		PayloadTypeRegistry.serverboundPlay().register(BuildBeehiveC2S.TYPE, BuildBeehiveC2S.CODEC);
 		ModBlocks.init();
+		ModBlockEntities.init();
 
 
 //		ServerPlayNetworking.registerGlobalReceiver(BuildBeehiveC2S.TYPE, ((buildBeehiveC2S, context) -> {

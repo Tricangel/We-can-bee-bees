@@ -2,9 +2,12 @@ package bee.bees.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Abilities;
 import net.minecraft.world.entity.player.Player;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,7 +20,8 @@ public abstract class PlayerMixin {
 
 
     @Shadow
-    public abstract boolean isSwimming();
+    @Final
+    private Abilities abilities;
 
     @ModifyReturnValue(method = "createAttributes", at = @At(value = "RETURN"))
     private static AttributeSupplier.Builder init(AttributeSupplier.Builder original) {
@@ -58,10 +62,30 @@ public abstract class PlayerMixin {
         return true;
     }
 
+    @ModifyExpressionValue(method = "hasEnoughFoodToDoExhaustiveManoeuvres", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;getAbilities()Lnet/minecraft/world/entity/player/Abilities;"))
+    private Abilities wwawwawawawaaawawa(Abilities original) {
+        if (original.invulnerable) return original;
+        original.mayfly = false;
+        return original;
+    }
+
     @ModifyReturnValue(method = "isSwimming", at = @At(value = "RETURN"))
     private boolean wwawaawawawa(boolean original) {
 
         return false;
+    }
+
+    @ModifyReturnValue(method = "getMovementEmission", at = @At(value = "RETURN"))
+    private Entity.MovementEmission wwawawawaawawawa(Entity.MovementEmission original) {
+        if (this.abilities.invulnerable) return original;
+        return Entity.MovementEmission.ALL;
+    }
+
+    @ModifyReturnValue(method = "canSprint", at = @At(value = "RETURN"))
+    private boolean wwawwawawaawawaawawawa(boolean original) {
+        if (this.abilities.invulnerable) return original;
+        if (this.abilities.flying) return false;
+        return original;
     }
 
 

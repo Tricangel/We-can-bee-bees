@@ -34,9 +34,9 @@ public abstract class ItemsMixin {
         name = name.replace("block.minecraft.", "");
         if (Bees.COMMON_FLOWERS.contains(name)) return value.food(Foods.POTATO);
         if (Bees.UNCOMMON_FLOWERS.contains(name)) return value.food(Foods.APPLE);
-        if (Bees.RARE_FLOWERS.contains(name)) return value.food(Foods.COOKED_COD);
+        if (Bees.RARE_FLOWERS.contains(name)) return value.food(Foods.COOKED_BEEF);
         if (Bees.BIOME_FLOWERS.contains(name)) return value.food(Foods.BEETROOT_SOUP);
-        if (Bees.TALL_FLOWERS.contains(name)) return value.food(Foods.COOKED_CHICKEN);
+        if (Bees.TALL_FLOWERS.contains(name)) return value.food(Foods.COOKED_COD);
         return value;
     }
 
