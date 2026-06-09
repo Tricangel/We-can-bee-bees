@@ -4,7 +4,10 @@ import bee.bees.cca.WaterComponent;
 import bee.bees.registry.ModEntityComponents;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -59,6 +62,10 @@ public abstract class LivingEntityMixin {
                 }
             }
 
+            if (player.getAbilities().flying) {
+                player.setSprinting(false);
+            }
+
 
 
 
@@ -86,6 +93,18 @@ public abstract class LivingEntityMixin {
         if ((LivingEntity) (Object) this instanceof Player player) {
             if (attribute.equals(Attributes.FLYING_SPEED)) {
                 player.getAbilities().setFlyingSpeed((float) this.attributes.getValue(attribute));
+            }
+
+        }
+    }
+
+    @Inject(method = "hurtServer", at = @At(value = "HEAD"), cancellable = true)
+    private void wawwwwaawaawaa(ServerLevel level, DamageSource source, float damage, CallbackInfoReturnable<Boolean> cir) {
+        if ((LivingEntity) (Object) this instanceof Player player) {
+            if (source.getEntity() != null) {
+                if (source.getEntity().is(EntityType.DROWNED)) {
+                    ModEntityComponents.WATER.get(player).water = 30;
+                }
             }
 
         }

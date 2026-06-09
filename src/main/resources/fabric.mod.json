@@ -3,13 +3,14 @@
 	"id": "bees",
 	"version": "${version}",
 	"name": "Bees",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "We can bee bees",
 	"authors": [
-		"Me!"
+		"Bee :3"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/Tricangel/We-can-bee-bees",
+		"issues": "https://github.com/Tricangel/We-can-bee-bees/issues",
+		"discord": "https://discord.gg/Z6jJyKGUcU"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/bees/icon.png",

@@ -28,7 +28,7 @@ public class Bees implements ModInitializer {
 	public static final List<String> BIOME_FLOWERS = List.of("blue_orchid", "closed_eyeblossom", "open_eyeblossom", "cactus_flower");
 	public static final List<String> TALL_FLOWERS = List.of("lilac", "sunflower", "rose_bush", "peony");
 
-	public static final List<String> FOODS = List.of("suspicious_stew", "rabbit_stew", "cooked_porkchop", "pumpkin_pie", "cooked_beef", "beetroot_soup", "cooked_chicken", "cooked_mutton", "cooked_salmon", "golden_carrot", "honey_bottle", "mushroom_stew", "baked_potato", "bread", "cooked_cod", "cooked_rabbit", "apple", "chorus_fruit", "golden_apple", "rotten_flesh", "carrot", "beef", "porkchop", "raw_rabbit", "cookie", "glow_berries", "melon_slice", "poisonous_potato", "chicken", "cod", "mutton", "salmon", "spider_eye", "sweet_berries", "beetroot", "dried_kelp", "potato", "pufferfish", "tropical_fish");
+	public static final List<String> FOODS = List.of("glowberries","suspicious_stew", "rabbit_stew", "cooked_porkchop", "pumpkin_pie", "cooked_beef", "beetroot_soup", "cooked_chicken", "cooked_mutton", "cooked_salmon", "golden_carrot", "honey_bottle", "mushroom_stew", "baked_potato", "bread", "cooked_cod", "cooked_rabbit", "apple", "chorus_fruit", "golden_apple", "rotten_flesh", "carrot", "beef", "porkchop", "raw_rabbit", "cookie", "glow_berries", "melon_slice", "poisonous_potato", "chicken", "cod", "mutton", "salmon", "spider_eye", "sweet_berries", "beetroot", "dried_kelp", "potato", "pufferfish", "tropical_fish");
 
 	public static final Map<ResourceKey<EquipmentAsset>, Identifier> MAP = Map.of(
 			EquipmentAssets.CHAINMAIL, Identifier.fromNamespaceAndPath(MOD_ID, "textures/armor/chainmail.png"),
