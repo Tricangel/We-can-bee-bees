@@ -1,9 +1,12 @@
-# Bees
+We can bee bees!
 
-## Setup
+_Warning! This mod is quite intrusive and is only meant for survival play_
 
-For setup instructions, please see the [Fabric Documentation page](https://docs.fabricmc.net/develop/getting-started/creating-a-project#setting-up) related to the IDE that you are using.
+Changes your player model into a bee and give you the abilities of a bee, such as
+- Flight while not wet
+- 5 hearts
+- The ability to eat flowers
 
-## License
+Texture for the bee is taken from your skin so you can express yourself!
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+![Player as a bee with an iron helmet](https://cdn.modrinth.com/data/cached_images/c323ad7d3d6420603882e95987e27a3a544a3058.png)
